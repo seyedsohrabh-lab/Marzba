@@ -78,26 +78,4 @@ If you need external access, please provide the SSL files to allow the server to
 
 If you wish to continue without SSL, you can use SSH port forwarding to access the application from your machine. note that in this case, subscription functionality will not work. 
 
-Use the following command:
-
-{click.style(f'ssh -L {UVICORN_PORT}:localhost:{UVICORN_PORT} user@server', italic=True, fg="cyan")}
-
-Then, navigate to {click.style(f'http://127.0.0.1:{UVICORN_PORT}', bold=True)} on your computer.
-            """)
-           bind_args['host'] =UVICORN_PORT
-            bind_args['port'] = UVICORN_PORT
-
-    if DEBUG:
-        bind_args['uds'] = None
-        bind_args['host'] = '0.0.0.0'
-
-    try:
-        uvicorn.run(
-            "main:app",
-            **bind_args,
-            workers=1,
-            reload=DEBUG,
-            log_level=logging.DEBUG if DEBUG else logging.INFO
-        )
-    except FileNotFoundError:  # to prevent error on removing unix sock
-        pass
+Use the fol
