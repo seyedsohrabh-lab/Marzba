@@ -28,6 +28,11 @@ COPY --from=build /usr/local/share/xray /usr/local/share/xray
 
 COPY . /code
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssl \
+    && rm -rf /var/lib/apt/lists/* \
+    && openssl req -x509 -newkey rsa:2048 -keyout /code/key.pem -out /code/cert.pem -days 365 -nodes -subj "/CN=localhost"
+
 RUN ln -s /code/marzban-cli.py /usr/bin/marzban-cli \
     && chmod +x /usr/bin/marzban-cli \
     && marzban-cli completion install --shell bash
